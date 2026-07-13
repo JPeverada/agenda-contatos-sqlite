@@ -1,7 +1,7 @@
 import sqlite3
 import time
 
-conectar = sqlite3.connect('/Users/peverada/MEGA/Documentos/VS/Python/Curso Python 2/Seção 8/database/agenda.db') # Cria o banco de dados ou importa caso já exista
+conectar = sqlite3.connect('database/agenda.db') # Cria o banco de dados ou importa caso já exista
 
 cursor = conectar.cursor() # Cria o cursor para manipular o banco de dados, é uma ferramenta que permite executar comandos SQL
 
