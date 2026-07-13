@@ -1,9 +1,18 @@
 import sqlite3
 import time
+import os
+import sys
 
-conectar = sqlite3.connect('database/agenda.db') # Cria o banco de dados ou importa caso já exista
+if getattr(sys, 'frozen', False):
+    diretorio_atual = os.path.dirname(sys.executable)
+else:
+    diretorio_atual = os.path.dirname(os.path.abspath(__file__))
 
-cursor = conectar.cursor() # Cria o cursor para manipular o banco de dados, é uma ferramenta que permite executar comandos SQL
+caminho_banco = os.path.join(diretorio_atual, 'database', 'agenda.db')
+
+conectar = sqlite3.connect(caminho_banco)
+
+cursor = conectar.cursor() 
 
 def criar_tabela():
     cursor.execute("CREATE TABLE IF NOT EXISTS cadastro (Nome text, Telefone varchar(15), email text, data text)")
@@ -36,7 +45,7 @@ def operacao(op):
         while True:
             print("CADASTRO")
             time.sleep(3)
-            data = time.strftime("%d/%m/%Y") # 
+            data = time.strftime("%d/%m/%Y") 
             nome = input("Digite o nome:  (digite 'sair' para sair do cadastro) ")
             if nome.lower() == "sair":
                 break
@@ -54,13 +63,16 @@ def operacao(op):
         resultados = cursor.fetchall()  # Retorna uma lista com todos os registros encontrados
         for linha in resultados:
             print(linha)
+        menu()
+        opcao = int(input("Qual opção deseja: "))
+        operacao(opcao)
     else:
         print("Opção inválida!")
+        menu()
+        opcao = int(input("Qual opção deseja: "))
+        operacao(opcao)
 
 
 menu()
 opcao = int(input("Qual opção deseja: "))
 operacao(opcao)
-
-
- 
